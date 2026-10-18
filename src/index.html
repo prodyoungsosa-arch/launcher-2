@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Launcher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<canvas id="fx"></canvas>
+<div class="bg"><span class="bg-glow g1"></span><span class="bg-glow g2"></span><span class="bg-grid"></span><span class="bg-noise"></span><span class="bg-vignette"></span></div>
+
+<div class="window">
+
+  <!-- ============ BARRA DE TÍTULO ============ -->
+  <header class="titlebar">
+    <div class="tb-brand">
+      <span class="logo-mark"><svg viewBox="0 0 32 32" width="22" height="22"><path d="M16 2 28 9v14L16 30 4 23V9z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M11 12h6.5a3.5 3.5 0 0 1 0 7H11zM11 19v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="tb-name" data-brand>TU SERVIDOR</span>
+      <span class="tb-ver" data-version>v1.0.0</span>
+    </div>
+    <div class="tb-status" id="tbStatus"><span class="dot pulse"></span><span id="tbOnline">— jugadores en línea</span></div>
+    <div class="tb-actions">
+      <button class="tb-btn" data-act="win" data-win="minimize" title="Minimizar"><i data-i="minus"></i></button>
+      <button class="tb-btn" data-act="win" data-win="maximize" title="Maximizar"><i data-i="square" data-size="13"></i></button>
+      <button class="tb-btn close" data-act="win" data-win="close" title="Cerrar"><i data-i="x"></i></button>
+    </div>
+  </header>
+
+  <main class="stage">
+
+    <!-- ============ AUTENTICACIÓN ============ -->
+    <section id="auth" class="auth">
+      <div class="auth-hero">
+        <span class="chip"><span class="dot pulse"></span> Launcher oficial · <span data-version>v1.0.0</span></span>
+        <h1 class="hero-title">Entra a tu mundo.<br><span class="grad">Juega sin límites.</span></h1>
+        <p class="hero-sub">Tu perfil, tu dinero, tu VIP y tus eventos en un solo lugar. Inicia sesión y salta directo al servidor.</p>
+
+        <div class="feature-grid">
+          <div class="feature"><span class="f-ic"><i data-i="user"></i></span><div><b>Perfil en tiempo real</b><small>Skin, dinero, trabajo y estadísticas desde tu cuenta.</small></div></div>
+          <div class="feature"><span class="f-ic"><i data-i="crown"></i></span><div><b>VIP y recompensas</b><small>Controla cuánto te queda y reclama tus premios diarios.</small></div></div>
+          <div class="feature"><span class="f-ic"><i data-i="calendar"></i></span><div><b>Eventos y novedades</b><small>Entérate de todo antes que nadie, con cuenta atrás.</small></div></div>
+          <div class="feature"><span class="f-ic"><i data-i="shield"></i></span><div><b>Diagnóstico integrado</b><small>Registros, detector de crasheos y soporte directo.</small></div></div>
+        </div>
+
+        <div class="hero-stats">
+          <div><b id="heroOnline">—</b><span>Jugadores en línea</span></div>
+          <div><b id="heroServers">—</b><span>Servidores</span></div>
+          <div><b data-version>v1.0.0</b><span>Versión</span></div>
+        </div>
+      </div>
+
+      <div class="auth-panel">
+        <div class="auth-card glass">
+          <div class="auth-logo"><span class="logo-mark big"><svg viewBox="0 0 32 32" width="34" height="34"><path d="M16 2 28 9v14L16 30 4 23V9z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M11 12h6.5a3.5 3.5 0 0 1 0 7H11zM11 19v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></div>
+
+          <div class="seg" id="authTabs">
+            <button class="seg-btn active" data-act="auth-tab" data-tab="login">Iniciar sesión</button>
+            <button class="seg-btn" data-act="auth-tab" data-tab="register">Registrarse</button>
+            <span class="seg-thumb"></span>
+          </div>
+
+          <!-- LOGIN -->
+          <form class="auth-form active" id="formLogin" data-form="login" autocomplete="on" novalidate>
+            <h2>Bienvenido de nuevo</h2>
+            <p class="muted">Ingresa con la cuenta de tu servidor.</p>
+            <label class="field"><i data-i="user"></i><input name="username" type="text" placeholder="Nombre de usuario" autocomplete="username" required></label>
+            <label class="field"><i data-i="lock"></i><input name="password" type="password" placeholder="Contraseña" autocomplete="current-password" required><button type="button" class="eye" data-act="toggle-pass" tabindex="-1"><i data-i="eye"></i></button></label>
+            <div class="row-between">
+              <label class="check"><input type="checkbox" name="remember" checked><span class="box"><i data-i="check" data-size="12"></i></span> Recordarme</label>
+              <a href="#" class="link" data-act="auth-tab" data-tab="forgot">¿Olvidaste tu contraseña?</a>
+            </div>
+            <div class="form-error" role="alert"></div>
+            <button class="btn btn-primary btn-lg w100" type="submit"><span class="btn-label">Entrar</span><span class="spinner"></span></button>
+            <div class="divider"><span>o continúa con</span></div>
+            <button class="btn btn-ghost w100" type="button" data-act="oauth" data-provider="discord"><i data-i="gamepad"></i> Discord</button>
+            <p class="foot-note">¿No tienes cuenta? <a href="#" class="link" data-act="auth-tab" data-tab="register">Regístrate gratis</a></p>
+          </form>
+
+          <!-- REGISTRO -->
+          <form class="auth-form" id="formRegister" data-form="register" autocomplete="off" novalidate>
+            <h2>Crea tu cuenta</h2>
+            <p class="muted">Empieza a jugar en menos de un minuto.</p>
+            <label class="field"><i data-i="user"></i><input name="username" type="text" placeholder="Nombre de usuario / nick" autocomplete="off" required></label>
+            <label class="field"><i data-i="mail"></i><input name="email" type="email" placeholder="Correo electrónico" autocomplete="off" required></label>
+            <label class="field"><i data-i="lock"></i><input name="password" type="password" placeholder="Contraseña" autocomplete="new-password" required><button type="button" class="eye" data-act="toggle-pass" tabindex="-1"><i data-i="eye"></i></button></label>
+            <div class="strength" id="pwStrength"><span></span><span></span><span></span><span></span><em>Seguridad de la contraseña</em></div>
+            <label class="field"><i data-i="lock"></i><input name="confirm" type="password" placeholder="Repite la contraseña" autocomplete="new-password" required></label>
+            <label class="field"><i data-i="gift"></i><input name="referral" type="text" placeholder="Código de invitación (opcional)" autocomplete="off"></label>
+            <label class="check"><input type="checkbox" name="terms"><span class="box"><i data-i="check" data-size="12"></i></span> Acepto los <a href="#" class="link" data-act="open-ext" data-url="terms">términos y condiciones</a></label>
+            <div class="form-error" role="alert"></div>
+            <button class="btn btn-primary btn-lg w100" type="submit"><span class="btn-label">Crear cuenta</span><span class="spinner"></span></button>
+            <p class="foot-note">¿Ya tienes cuenta? <a href="#" class="link" data-act="auth-tab" data-tab="login">Inicia sesión</a></p>
+          </form>
+
+          <!-- RECUPERAR -->
+          <form class="auth-form" id="formForgot" data-form="forgot" novalidate>
+            <h2>Recuperar contraseña</h2>
+            <p class="muted">Te enviaremos un enlace para restablecerla.</p>
+            <label class="field"><i data-i="mail"></i><input name="email" type="email" placeholder="Correo de tu cuenta" required></label>
+            <div class="form-error" role="alert"></div>
+            <button class="btn btn-primary btn-lg w100" type="submit"><span class="btn-label">Enviar enlace</span><span class="spinner"></span></button>
+            <p class="foot-note"><a href="#" class="link" data-act="auth-tab" data-tab="login">← Volver a iniciar sesión</a></p>
+          </form>
+        </div>
+        <div class="auth-foot"><a href="#" class="link" data-act="support">Soporte</a><span>·</span><a href="#" class="link" data-act="open-ext" data-url="discord">Discord</a><span>·</span><span class="dim">© <span data-brand>TU SERVIDOR</span></span></div>
+      </div>
+    </section>
+
+    <!-- ============ APLICACIÓN ============ -->
+    <section id="app" class="app hidden">
+      <aside class="sidebar">
+        <div class="online-card" id="onlineCard">
+          <span class="oc-label">Jugadores en línea</span>
+          <div class="oc-value"><i data-i="users"></i><b id="onlineCount">—</b></div>
+          <div class="oc-bar"><span id="onlineBar"></span></div>
+          <span class="oc-glow"></span>
+        </div>
+
+        <nav class="nav" id="nav"></nav>
+
+        <div class="sb-footer">
+          <button class="user-mini" data-act="nav" data-view="perfil" id="userMini"></button>
+          <div class="sb-row">
+            <label class="lang"><i data-i="globe"></i>
+              <select id="langSelect"><option value="es">Español</option><option value="en">English</option><option value="pt">Português</option></select>
+            </label>
+            <button class="icon-btn" data-act="support" title="Soporte"><i data-i="headset"></i></button>
+            <button class="icon-btn" data-act="logout" title="Cerrar sesión"><i data-i="logout"></i></button>
+          </div>
+        </div>
+      </aside>
+
+      <div class="content" id="content"><div id="view" class="view"></div></div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Overlay de lanzamiento -->
+<div class="launch hidden" id="launch"></div>
+<div id="modalRoot"></div>
+<div id="toasts"></div>
+
+<script src="app.js"></script>
+<!-- DATOS DE DEMOSTRACIÓN: borra esta línea cuando conectes tu lógica real -->
+<script src="mock-data.js"></script>
+</body>
+</html>
